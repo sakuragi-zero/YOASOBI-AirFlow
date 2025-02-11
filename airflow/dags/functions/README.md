@@ -29,6 +29,7 @@ class LoadTask:
         x = self.test()  # メソッドの呼び出しミスを修正
         y = "01-01"
         return x + y  # 文字列の結合
+```
 
 課題
 test1() の x = self.test がメソッドを呼び出していない (() が必要)
@@ -36,6 +37,7 @@ test1() の x = self.test がメソッドを呼び出していない (() が必�
 
 ② Airflow 版: PythonOperator 対応
 
+```python
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
@@ -69,7 +71,7 @@ with DAG(
         python_callable=LoadTask.load_task,  # クラスメソッドを渡す
         op_kwargs={"env": "こんにちは"},  # `env` を渡す
     )
-
+```
 
 改善点
 PythonOperator で LoadTask.load_task を python_callable として渡せる
@@ -80,6 +82,7 @@ LoadTask(env) を 手動でインスタンス化 しないといけない（冗�
 
 ③ @classmethod 最適化版: 継承対応 & 拡張性アップ
 
+```python
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
@@ -122,6 +125,8 @@ with DAG(
         python_callable=LoadTask.load_task,  # クラスメソッドを渡す
         op_kwargs={"env": "こんにちは"},  # `env` を動的に渡す
     )
+
+```
 
 最適化ポイント
 @classmethod を使用し、cls(env) で 適切にインスタンスを作成
