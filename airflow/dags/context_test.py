@@ -32,7 +32,7 @@ class LoadTask:
 # DAG の定義
 with DAG(
     dag_id="example_env_passing",
-    schedule_interval="@daily",
+    schedule_interval=None,
     start_date=datetime(2025, 2, 1),
     catchup=False,
 ) as dag:
